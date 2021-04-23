@@ -1,9 +1,6 @@
 package edu.wiu.antenna;
 
-import edu.wiu.antenna.tools.AMScan;
-import edu.wiu.antenna.tools.AmStation;
-import edu.wiu.antenna.tools.DBHandler;
-import edu.wiu.antenna.tools.FMScan;
+import edu.wiu.antenna.tools.*;
 
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -46,11 +43,21 @@ public class RadioSoup {
                     System.out.println("Getting AM stations ready...");
                     LinkedList<AmStation> amList = AMScan.findAm();
                     System.out.println("AM stations ready.");
+                    System.out.println("Getting FM stations ready...");
+                    LinkedList<FmStation> fmList = FMScan.findFm();
+                    System.out.println("FM stations ready.");
                     System.out.println("Starting database update...");
                     for(int i = 0; i < amList.size(); i++) {
                         String temp = amList.get(i).getCallsign();
                         amList.get(i).setCs(temp+i);
                         DBHandler.amInsert(amList.get(i), user, pass);
+                    }
+                    System.out.println("AM Database update complete.");
+                    System.out.println("FM Database update started...");
+                    for(int i = 0; i < fmList.size(); i++) {
+                        String temp = fmList.get(i).getCity();
+                        fmList.get(i).setCs(temp+i);
+                        DBHandler.fmInsert(fmList.get(i), user, pass);
                     }
                     DBHandler.dbTest();
                     System.out.println("Database update complete.");
