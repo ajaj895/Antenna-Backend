@@ -55,7 +55,7 @@ public class RadioSoup {
                     System.out.println("AM Database update complete.");
                     System.out.println("FM Database update started...");
                     for(int i = 0; i < fmList.size(); i++) {
-                        String temp = fmList.get(i).getCity();
+                        String temp = fmList.get(i).getCallsign();
                         fmList.get(i).setCs(temp+i);
                         DBHandler.fmInsert(fmList.get(i), user, pass);
                     }
