@@ -10,11 +10,19 @@ public class AMScan {
 
     static LinkedList<AmStation> amStations = new LinkedList<>();
 
+    /**
+     * Returns a LinkedList<AmStation> object that contains all the AM radio stations in North America.
+     * Pulls data from the AM-stations.txt
+     * @return LinkedList<AmStation> of all AM radio stations in North America.
+     */
     public static LinkedList<AmStation> findAm(){
         parseAmList();
         return amStations;
     }
 
+    
+    // Returns a Scanner object of the AM-stations.txt
+    // Throws a FileNotFound exception if the AM-stations.txt is not found.
     private static Scanner getAmSc() throws FileNotFoundException {
         String fileName = "AM-stations.txt";
         File amFile = new File(fileName);
@@ -22,6 +30,8 @@ public class AMScan {
         return amSc;
     }
 
+    // Parses the AM-stations.txt file and scrapes the data for AM radio stations.
+    // Every 15 reads creates an AmStation object.
     private static void parseAmList(){
         Scanner sc = null;
         try {
@@ -122,22 +132,32 @@ public class AMScan {
                 //System.out.println(sc.next());
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) { //Only if the AM-station.txt isn't found.
             e.printStackTrace();
             System.err.println("AM-stations.txt not found!");
         }
 
     }
 
+    /**
+     * Returns a LinkedList<AmStation> of all the AM radio stations found in AM-station.txt
+     * @return LinkedList<AmStation> a list of all the AM stations in North America.
+     */
     public static LinkedList getAmList(){
         return amStations;
     }
 
+    /**
+     * Creates and returns an AmStation object.
+     * @param am the array of size 15 of the AM-Station data in the following format: callsign, Freq, mode, city, state, country, power, latitude direction (n/s), latitude degree, latitude minute, latitude second, longitude direction (e/w), latitude degree, latitude minute, latitude second.
+     * @return AmStation a new AM radio station object.
+     */
     public static AmStation newStation(String[] am){
         return makeStation(am);
     }
 
-    //This will verify the data too
+    // Creates the AmStation object.
+    // This will verify the data too
     private static AmStation makeStation(String[] am){
         //Initialization
         String cs;
