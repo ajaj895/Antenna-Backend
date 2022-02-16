@@ -1,3 +1,9 @@
+/*
+ * Written by: Evan C. 
+ * Created: Spring 2021
+ * Last updated: February 15, 2022 
+*/
+
 package edu.wiu.antenna.tools;
 
 import org.jsoup.Jsoup;
@@ -14,12 +20,17 @@ public class FMScan {
 
     static LinkedList<FmStation> fmStations = new LinkedList<>();
 
+    /**
+     * findFm parses the FM-stations.txt in the project directory for all FM radio stations in North America and returns them as a linked list.
+     * @return LinkedList<FmStation> containing the entire list of FM Radio Stations in North America.
+     */
     public static LinkedList<FmStation> findFm(){
         // TODO: The website is too slow for jsoup. May have to try wget script and text file parsing.
         parseFmList();
         return fmStations;
     }
 
+    // For reading the file
     private static Scanner getFmSc() throws FileNotFoundException {
         String fileName = "FM-stations.txt";
         File fmFile = new File(fileName);
@@ -27,6 +38,7 @@ public class FMScan {
         return fmSc;
     }
 
+    // For parsing the data in the FM-stations.txt file.
     private static void parseFmList(){
         Scanner sc = null;
         try {
@@ -129,27 +141,25 @@ public class FMScan {
                     loc++;
                 }
 
-                //System.out.println(sc.next());
-                /*
-                FmStation newStation = new FmStation(StationArr[0], StationArr[1],
-                        StationArr[2], StationArr[3], StationArr[4], StationArr[5],
-                        StationArr[6], StationArr[7], StationArr[8], StationArr[9],
-                        StationArr[10], StationArr[11], StationArr[12], StationArr[13],
-                        StationArr[14], StationArr[15]);
-
-                 */
             }
 
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) { // Only thrown if getFmSc() does not find FM-stations.txt
             e.printStackTrace();
             System.err.println("FM-stations.txt not found!");
         }
     }
 
+    /**
+     * newStation creates a FmStation object and returns it.
+     * @param fm A String[] of size 16 representing all the data needed to make the Fm Station
+     * (callsign, frequency, city, state, country, directional, class, power, latitude direction, lat degrees, lat minutes, lat seconds, longitude direction, long degrees, long minutes, long seconds).
+     * @return FmStation object representing the new FM radio station.
+     */
     public static FmStation newStation(String[] fm){
         return makeStation(fm);
     }
 
+    // newStation() constructor.
     private static FmStation makeStation(String[] fm){
         //Initialization
         String cs;
@@ -238,7 +248,7 @@ public class FMScan {
             }
         }
 
-        if(fm[8].equalsIgnoreCase("N")){
+        if(fm[8].equalsIgnoreCase("N")){ // North = true, south = false
             latDir = true;
         } else {
             latDir = false;
@@ -248,11 +258,11 @@ public class FMScan {
         try {
             latDeg = Integer.parseInt(fm[9]);
         } catch(NumberFormatException e){
-            //This means that its a 2 digit lat
+            //This means that its a two digit lat
             try {
                 latDeg = Integer.parseInt(fm[9].substring(0, 2));
             } catch(NumberFormatException f){
-                //Means that it is a 1 digit
+                //Means that it is a one digit
                 try {
                     latDeg = Integer.parseInt(fm[9].substring(0, 1));
                 } catch(NumberFormatException g){
@@ -266,11 +276,11 @@ public class FMScan {
         try {
             latMin = Integer.parseInt(fm[10]);
         } catch(NumberFormatException e){
-            //This means that its a 2 digit lat
+            //This means that its a two digit lat
             try {
                 latMin = Integer.parseInt(fm[10].substring(0, 2));
             } catch(NumberFormatException f){
-                //Means that it is a 1 digit
+                //Means that it is a one digit
                 try {
                     latMin = Integer.parseInt(fm[10].substring(0, 1));
                 } catch(NumberFormatException g){
@@ -282,11 +292,11 @@ public class FMScan {
         try {
             latSec = Double.parseDouble(fm[11]);
         } catch(NumberFormatException e){
-            //This means that its a 2 digit lat
+            //This means that its a two digit lat
             try {
                 latSec = Double.parseDouble(fm[11].substring(0, 2));
             } catch(NumberFormatException f){
-                //Means that it is a 1 digit
+                //Means that it is a one digit
                 try {
                     latSec = Double.parseDouble(fm[11].substring(0, 1));
                 } catch(NumberFormatException g){
@@ -294,7 +304,8 @@ public class FMScan {
                 }
             }
         }
-        if(fm[12].equalsIgnoreCase("E")){
+
+        if(fm[12].equalsIgnoreCase("E")){ //Longitude = true for east, or false for west.
             lngDir = true;
         } else {
             lngDir = false;
@@ -307,7 +318,7 @@ public class FMScan {
             try {
                 lngDeg = Integer.parseInt(fm[13].substring(0, 2));
             } catch(NumberFormatException f){
-                //Means that it is a 1 digit
+                //Means that it is a one digit
                 try {
                     lngDeg = Integer.parseInt(fm[13].substring(0, 1));
                 } catch (NumberFormatException g){
@@ -319,11 +330,11 @@ public class FMScan {
         try {
             lngMin = Integer.parseInt(fm[14]);
         } catch(NumberFormatException e){
-            //Means that is is 2 digits
+            //Means that is is two digits
             try {
                 lngMin = Integer.parseInt(fm[14].substring(0, 2));
             } catch(NumberFormatException f){
-                //Means that it is a 1 digit
+                //Means that it is a one digit
                 try {
                     lngMin = Integer.parseInt(fm[14].substring(0, 1));
                 } catch (NumberFormatException g){

@@ -1,3 +1,9 @@
+/*
+ * Written by: Evan C. 
+ * Created: Spring 2021
+ * Last updated: February 15, 2022 
+*/
+
 package edu.wiu.antenna.tools;
 
 /*
@@ -140,6 +146,7 @@ public class AmStation {
         cs = newCs;
     }
 
+    // Initializes all the values in the AmStation object.
     private void init(String callsign, short freq, byte type, String loc, String locState, String locCountry,
                       float sPower, boolean latD, int latDeg, int latMin, double latSec, boolean longD, int longDeg,
                       int longMin, double longSec){
